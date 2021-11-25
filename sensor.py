@@ -45,7 +45,7 @@ def service_connection(key, mask):
             sel.unregister(sock)
             sock.close()
     if mask & selectors.EVENT_WRITE:
-        while (true):
+        while (True):
                 if i > len(messages):
                     i=0
                 data.outb= messages[i]
