@@ -24,7 +24,7 @@ def start_connections(host, port, num_conns):
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
         data = types.SimpleNamespace(
             connid=connid,
-            msg_total=sum(len(m) for m in messages),
+            msg_total=sum(len(messages)),
             recv_total=0,
             messages=list(messages),
             outb=b"",
