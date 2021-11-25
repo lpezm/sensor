@@ -49,9 +49,8 @@ def service_connection(key, mask):
                 if i > len(messages):
                     i=0
                 data.outb= messages[i]
-                print("sending", repr(data.outb), "to connection", data.connid)
+                print("sending", messages[i], "to connection", data.connid)
                 sent = sock.send(data.outb)  # Should be ready to write
-                data.outb = data.outb[sent:]
                 i+=1
                 sleep(0.1)
 
