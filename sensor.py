@@ -10,7 +10,7 @@ PORT = 33000
 i=0
 #messages = [b"Hello, This is client 1 , How you doing.", b"That's all from me, cheers."]
 df = pd.read_csv("foo2.csv")
-messages = df.iloc[:, 1]
+messages = list(df.iloc[:, 1])
 
 
 def start_connections(host, port, num_conns):
