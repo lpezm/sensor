@@ -4,6 +4,7 @@ import types
 import numpy as np
 import pandas as pd
 import io
+import pickle
 sel = selectors.DefaultSelector()
 HOST = '10.35.70.15'
 PORT = 33000
@@ -46,12 +47,12 @@ def service_connection(key, mask):
             sel.unregister(sock)
             sock.close()
     if mask & selectors.EVENT_WRITE:
-        if not data.outb and data.messages:
-            data.outb = data.messages.pop(0)
-        if data.outb:
-            print("sending", repr(data.outb), "to connection", data.connid)
-            sent = sock.send(data.outb)  # Should be ready to write
-            data.outb = data.outb[sent:]
+        while(True):
+            for i in range(len(msgs)):
+                print("sending", msgs[i], "to connection", data.connid)
+                msg = pickle.dumps(msgs[i])
+                sent = sock.send(msg)  # Should be ready to write
+                data.outb = data.outb[sent:]
 
 
 start_connections(HOST, PORT, 2)
