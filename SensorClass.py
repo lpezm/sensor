@@ -71,6 +71,8 @@ class Sensor:
                 print("sending", repr(data.outb), "to connection", data.connid)
                 sent = sock.send(sens+data.outb)  # Should be ready to write
                 data.outb = data.outb[sent:]
+                time.sleep(2)
+
         return self.finished
 
     def run(self, sensorType):
@@ -85,7 +87,6 @@ class Sensor:
                     break
             except KeyboardInterrupt:
                 print("caught keyboard interrupt, exiting")
-            time.sleep(2)
 
 def main():
     parser = argparse.ArgumentParser()
