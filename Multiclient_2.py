@@ -1,16 +1,20 @@
 import socket
 import selectors
 import types
+import numpy as np
 import pandas as pd
+import io
+import pickle
 import time
 sel = selectors.DefaultSelector()
 HOST = '10.35.70.15'
 PORT = 33000
 
-messages = [b"Hello, This is client 1 , How you doing.", b"That's all from me, cheers."]
+#messages = [b"Hello, This is client 1 , How you doing.", b"That's all from me, cheers."]
 df = pd.read_csv("foo2.csv")
-datos = df.iloc[:,1]
-csv = datos.astype(int)
+msgs =df.iloc[:, 1]
+import ctypes
+buf = pickle.dumps(msgs)
 def start_connections(host, port, num_conns):
     server_addr = (host, port)
     for i in range(0, num_conns):
@@ -22,9 +26,9 @@ def start_connections(host, port, num_conns):
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
         data = types.SimpleNamespace(
             connid=connid,
-            msg_total=sum(len(m) for m in messages),
+            msg_total=sum(len(m) for m in buf),
             recv_total=0,
-            messages=list(messages),
+            messages=list(buf),
             outb=b"",
         )
         sel.register(sock, events, data=data)
@@ -45,14 +49,11 @@ def service_connection(key, mask):
     if mask & selectors.EVENT_WRITE:
         if not data.outb and data.messages:
             data.outb = data.messages.pop(0)
-            val = f'{csv[0]}'
-            data.messages.append(val.encode('utf-8'))
         if data.outb:
             print("sending", repr(data.outb), "to connection", data.connid)
             sent = sock.send(data.outb)  # Should be ready to write
             data.outb = data.outb[sent:]
             time.sleep(1)
-
 
 start_connections(HOST, PORT, 2)
 
