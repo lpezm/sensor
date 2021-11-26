@@ -13,8 +13,9 @@ PORT = 33000
 #messages = [b"Hello, This is client 1 , How you doing.", b"That's all from me, cheers."]
 df = pd.read_csv("foo2.csv")
 msgs =df.iloc[:, 1]
-import ctypes
-buf = pickle.dumps(msgs)
+['{:.2f}'.format(x) for x in msgs]
+[str(x) for x in msgs]
+buf = [x.encode('utf-8') for x in msgs]
 def start_connections(host, port, num_conns):
     server_addr = (host, port)
     for i in range(0, num_conns):
