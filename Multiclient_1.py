@@ -10,8 +10,10 @@ PORT = 33000
 
 #messages = [b"Hello, This is client 1 , How you doing.", b"That's all from me, cheers."]
 df = pd.read_csv("foo2.csv")
-msgs = bytearray(df.iloc[:, 1])
-
+msgs =df.iloc[:, 1]
+import ctypes
+buf = (ctypes.c_double * len(msgs))()
+buf[:] = msgs
 def start_connections(host, port, num_conns):
     server_addr = (host, port)
     for i in range(0, num_conns):
@@ -23,9 +25,9 @@ def start_connections(host, port, num_conns):
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
         data = types.SimpleNamespace(
             connid=connid,
-            msg_total=len(msgs),
+            msg_total=sum(len(m) for m in buf),
             recv_total=0,
-            messages=msgs,
+            messages=list(buf),
             outb=b"",
         )
         sel.register(sock, events, data=data)
