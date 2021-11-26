@@ -3,6 +3,7 @@ import selectors
 import types
 import pandas as pd
 import numpy
+import time
 sel = selectors.DefaultSelector()
 HOST = '10.35.70.15'
 PORT = 33000
