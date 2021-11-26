@@ -12,7 +12,7 @@ import re
 class Sensor:
 
     def __init__(self, sensorType):
-        match(sensorType):
+        match sensorType:
             case 'temp':
                 self.port = 33000
                 df = pd.read_csv("foo2.csv")
