@@ -10,7 +10,7 @@ PORT = 33000
 
 #messages = [b"Hello, This is client 1 , How you doing.", b"That's all from me, cheers."]
 df = pd.read_csv("foo2.csv")
-msgs = list(map(str, df.iloc[:, 1]))
+msgs = bytearray(df.iloc[:, 1])
 
 def start_connections(host, port, num_conns):
     server_addr = (host, port)
