@@ -13,8 +13,7 @@ PORT = 33000
 df = pd.read_csv("foo2.csv")
 msgs =df.iloc[:, 1]
 import ctypes
-buf = (ctypes.c_double * len(msgs))()
-buf[:] = msgs
+buf = pickle.dumps(msgs)
 def start_connections(host, port, num_conns):
     server_addr = (host, port)
     for i in range(0, num_conns):
