@@ -12,15 +12,14 @@ import re
 class Sensor:
 
     def __init__(self, sensorType):
-        match sensorType:
-            case 'temp':
-                self.port = 33000
-                df = pd.read_csv("foo2.csv")
-                msgs = df.iloc[:, 1]
-                msgs = ['{:.2f}'.format(x) for x in msgs]
-                msgs = [str(x) for x in msgs]
-                self.messages = [x.encode('utf-8') for x in msgs]
-            case 'speed':
+        if sensorType == 'temp':
+            self.port = 33000
+            df = pd.read_csv("foo2.csv")
+            msgs = df.iloc[:, 1]
+            msgs = ['{:.2f}'.format(x) for x in msgs]
+            msgs = [str(x) for x in msgs]
+            self.messages = [x.encode('utf-8') for x in msgs]
+        elif sensorType == 'speed':
                 self.port = 33000
                 df = pd.read_csv("foo2.csv")
                 msgs = df.iloc[:, 1]
