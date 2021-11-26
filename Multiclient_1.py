@@ -51,7 +51,7 @@ def service_connection(key, mask):
             for i in range(len(msgs)):
                 print("sending", msgs[i], "to connection", data.connid)
                 msg1= pickle.dumps(msgs[i])
-                msg = msgs[i].encode('utf-8')
+                msg = str(msgs[i]).encode('utf-8')
                 sent = sock.send(msg)  # Should be ready to write
                 data.outb = data.outb[sent:]
                 time.sleep(1)
