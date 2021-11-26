@@ -1,13 +1,13 @@
 import socket
 import selectors
 import types
-import pandas
+import pandas as pd
 import numpy
 sel = selectors.DefaultSelector()
 HOST = '10.35.70.15'
 PORT = 33000
 
-#messages = [b"Hello, This is client 1 , How you doing.", b"That's all from me, cheers."]
+messages = [b"Transmitting temperature values."]
 df = pd.read_csv("foo2.csv")
 datos = df.iloc[:,1]
 csv = datos.astype(int)
