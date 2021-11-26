@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import io
 import pickle
+import time
 sel = selectors.DefaultSelector()
 HOST = '10.35.70.15'
 PORT = 33000
@@ -52,7 +53,7 @@ def service_connection(key, mask):
                 msg = pickle.dumps(msgs[i])
                 sent = sock.send(msg)  # Should be ready to write
                 data.outb = data.outb[sent:]
-                sleep(1)
+                time.sleep(1)
 
 start_connections(HOST, PORT, 2)
 
