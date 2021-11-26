@@ -85,7 +85,7 @@ class Sensor:
                     break
             except KeyboardInterrupt:
                 print("caught keyboard interrupt, exiting")
-
+            time.sleep(2)
 
 def main():
     parser = argparse.ArgumentParser()
