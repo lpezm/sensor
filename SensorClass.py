@@ -62,7 +62,7 @@ class Sensor:
                 data.recv_total += len(recv_data)
             if not recv_data or data.recv_total == data.msg_total:
                 print("closing connection", data.connid)
-                sel.unregister(sock)
+                self.selector.unregister(sock)
                 sock.close()
         if mask & selectors.EVENT_WRITE:
             if not data.outb and data.messages:
@@ -76,12 +76,12 @@ class Sensor:
     def run(self, sensorType):
         while not self.finished:
             try:
-                events = sel.select(timeout=None)
+                events = self.selector.select(timeout=None)
                 if events:
                     for key, mask in events:
                         self.service_connection(key, mask, sensorType)
                 # Check for a socket being monitored to continue.
-                if not sel.get_map():
+                if not self.selector.get_map():
                     break
             except KeyboardInterrupt:
                 print("caught keyboard interrupt, exiting")
@@ -90,7 +90,7 @@ class Sensor:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--sensorType', help='Type of sensor', required=True)
+    parser.add_argument('--sensorType', help='Type of sensor', required=True, type= str)
     args = parser.parse_args()
     sensorType = args.sensorType
     mySensor = Sensor(sensorType)
